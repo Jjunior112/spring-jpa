@@ -1,7 +1,48 @@
 package com.bookstore.spring_JPA.services;
 
+import com.bookstore.spring_JPA.models.Publisher;
+import com.bookstore.spring_JPA.repositories.PublisherRepository;
+import com.bookstore.spring_JPA.repositories.BookRepository;
+import com.bookstore.spring_JPA.exceptions.ResourceNotFoundException;
+import com.bookstore.spring_JPA.exceptions.PublisherDeletionException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class PublisherService {
+
+    private final PublisherRepository publisherRepository;
+    private final BookRepository bookRepository;
+
+    public PublisherService(PublisherRepository publisherRepository, BookRepository bookRepository) {
+        this.publisherRepository = publisherRepository;
+        this.bookRepository = bookRepository;
+    }
+
+    public Publisher create(Publisher publisher) {
+        return publisherRepository.save(publisher);
+    }
+  
+    public List<Publisher> findAll() {
+        return publisherRepository.findAll();
+    }
+
+    public Publisher findById(UUID id) {
+        return publisherRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Editora não encontrada com ID: " + id));
+    }
+    
+    public void delete(UUID id) {
+        Publisher publisher = publisherRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Editora não encontrada com ID: " + id));
+
+        if (bookRepository.countByPublisherId(id) > 0) {
+            throw new DeletionException("Não é possível excluir a editora. Existem livros associados.");
+        }
+
+        publisherRepository.delete(publisher);
+    }
 }
