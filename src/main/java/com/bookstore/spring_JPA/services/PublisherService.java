@@ -4,7 +4,7 @@ import com.bookstore.spring_JPA.models.Publisher;
 import com.bookstore.spring_JPA.repositories.PublisherRepository;
 import com.bookstore.spring_JPA.repositories.BookRepository;
 import com.bookstore.spring_JPA.exceptions.ResourceNotFoundException;
-import com.bookstore.spring_JPA.exceptions.PublisherDeletionException;
+import com.bookstore.spring_JPA.exceptions.DeletionException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +22,12 @@ public class PublisherService {
         this.bookRepository = bookRepository;
     }
 
-    public Publisher create(Publisher publisher) {
+    public Publisher create(PublisherRecordDto publisherDto) {
+
+        Publisher publisher = new Publisher();
+
+        publisher.setName(publisherDto.name());
+
         return publisherRepository.save(publisher);
     }
   
