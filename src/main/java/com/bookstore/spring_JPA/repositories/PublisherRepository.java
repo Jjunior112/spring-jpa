@@ -7,6 +7,6 @@ import java.util.UUID;
 
 public interface PublisherRepository extends JpaRepository<Publisher, UUID> {
 
-    long countByPublisherId(UUID publisherId);
+
 
 }

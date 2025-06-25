@@ -1,5 +1,6 @@
 package com.bookstore.spring_JPA.services;
 
+import com.bookstore.spring_JPA.dtos.PublisherRecordDto;
 import com.bookstore.spring_JPA.models.Publisher;
 import com.bookstore.spring_JPA.repositories.PublisherRepository;
 import com.bookstore.spring_JPA.repositories.BookRepository;

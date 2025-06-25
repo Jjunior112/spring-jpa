@@ -1,6 +1,16 @@
 package com.bookstore.spring_JPA.services;
 
+import com.bookstore.spring_JPA.dtos.BookRecordDto;
+import com.bookstore.spring_JPA.exceptions.ResourceNotFoundException;
+import com.bookstore.spring_JPA.models.Book;
+import com.bookstore.spring_JPA.repositories.AuthorRepository;
+import com.bookstore.spring_JPA.repositories.BookRepository;
+import com.bookstore.spring_JPA.repositories.PublisherRepository;
+import com.bookstore.spring_JPA.repositories.ReviewRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class BookService {
@@ -34,7 +44,7 @@ public class BookService {
 
     public Book findById(UUID id)
     {
-        return bookRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Livro com id: " + id + " não encontrado!")); 
+        return bookRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Livro com id: " + id + " não encontrado!"));
     }
 
     public void delete(UUID id)

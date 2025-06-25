@@ -8,6 +8,9 @@ import java.util.UUID;
 public interface BookRepository extends JpaRepository<Book, UUID> {
 
     Book findBookByTitle(String title);
+    long countByPublisherId(UUID publisherId);
+
+    long countByAuthorsId(UUID authorId);
 
 
 }
