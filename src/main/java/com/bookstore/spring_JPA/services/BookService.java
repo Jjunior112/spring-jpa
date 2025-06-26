@@ -8,9 +8,11 @@ import com.bookstore.spring_JPA.repositories.BookRepository;
 import com.bookstore.spring_JPA.repositories.PublisherRepository;
 import com.bookstore.spring_JPA.repositories.ReviewRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.Optional;
 
 @Service
 public class BookService {
@@ -28,13 +30,25 @@ public class BookService {
         this.reviewRepository = reviewRepository;
     }
 
-    public Book create(BookRecordDto bookDto)
+    @Transactional
+    public String create(BookRecordDto bookDto)
     {
         Book book = new Book();
 
         book.setTitle(bookDto.title());
+        book.setPublisher(publisherRepository.findById(bookDto.publisherId()).get());
+        book.setAuthors(authorRepository.findById(bookDto.authorsIds()).get());
 
-        return bookRepository.save(book);
+        Review review = new Review();
+
+        review.setComment(bookDto.reviewComment());
+
+        review.setBook(book);
+        book.setReview(review);
+
+        bookRepository.save(book);
+
+        return new BookRecordDto(saved.getTitle());
     } 
 
     public List<Book> findAll()
@@ -42,16 +56,18 @@ public class BookService {
         return bookRepository.findAll();
     }
 
-    public Book findById(UUID id)
+    public Optional<Book> findById(UUID id)
     {
         return bookRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Livro com id: " + id + " não encontrado!"));
     }
 
-    public void delete(UUID id)
+    public DeleteResponse delete(UUID id)
     {
         Book book = bookRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Livro com id: " + id + " não encontrado!"));    
 
         bookRepository.delete(book);
+
+        return new DeleteResponse(true,"Livro deletado com sucesso!");
     }
 
 }

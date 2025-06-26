@@ -39,23 +39,22 @@ public class AuthorController {
 
     @PostMapping
 
-        public AuthorRecordDto create(@RequestBody AuthorRecordDto authorDto)
-        {
+    public AuthorRecordDto create(@RequestBody AuthorRecordDto authorDto)
+    {
 
-            return authorService.create(authorDto);
+        return authorService.create(authorDto);
 
+    }
 
-        }
+    @DeleteMapping("/{id}")
 
-        @DeleteMapping("/{id}")
+    public String delete(@PathVariable UUID id)
 
-        public String delete(@PathVariable UUID id)
+    {
+        var response = authorService.delete(id);
 
-        {
-            var response = authorService.delete(id);
-
-             return response.message();
-        }
+            return response.message();
+    }
 
 
 
