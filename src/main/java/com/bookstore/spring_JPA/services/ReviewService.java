@@ -1,6 +1,16 @@
 package com.bookstore.spring_JPA.services;
 
+import com.bookstore.spring_JPA.dtos.DeleteResponse;
+import com.bookstore.spring_JPA.dtos.ReviewRecordDto;
+import com.bookstore.spring_JPA.exceptions.DeletionException;
+import com.bookstore.spring_JPA.models.Review;
+import com.bookstore.spring_JPA.repositories.BookRepository;
+import com.bookstore.spring_JPA.repositories.ReviewRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ReviewService {
@@ -14,15 +24,14 @@ public class ReviewService {
         this.reviewRepository = reviewRepository;
     }
 
-    public String create(ReviewRecordDto reviewDto)
+    public Review create(ReviewRecordDto reviewDto)
     {
         Review review = new Review();
 
         review.setComment(reviewDto.comment());
 
-        reviewRepository.save(review);
 
-        return new ReviewRecordDto(saved.getName());
+        return  reviewRepository.save(review);
 
     }
 

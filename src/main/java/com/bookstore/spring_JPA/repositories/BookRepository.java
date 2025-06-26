@@ -13,4 +13,5 @@ public interface BookRepository extends JpaRepository<Book, UUID> {
     long countByAuthorsId(UUID authorId);
 
 
+    long countByReviewId(UUID reviewId);
 }

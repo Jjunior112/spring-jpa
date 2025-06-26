@@ -1,5 +1,6 @@
 package com.bookstore.spring_JPA.services;
 
+import com.bookstore.spring_JPA.dtos.DeleteResponse;
 import com.bookstore.spring_JPA.dtos.PublisherRecordDto;
 import com.bookstore.spring_JPA.models.Publisher;
 import com.bookstore.spring_JPA.repositories.PublisherRepository;
@@ -26,15 +27,13 @@ public class PublisherService {
 
 
 
-    public String create(PublisherRecordDto publisherDto) {
+    public Publisher create(PublisherRecordDto publisherDto) {
 
         Publisher publisher = new Publisher();
 
         publisher.setName(publisherDto.name());
 
-        publisherRepository.save(publisher);
-
-        return new publisherRecordDto(saved.getName());
+        return publisherRepository.save(publisher);
 
     }
   
@@ -42,9 +41,9 @@ public class PublisherService {
         return publisherRepository.findAll();
     }
 
-    public Optional<Publisher> findById(UUID id) {
+    public Publisher findById(UUID id) {
         return publisherRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Editora não encontrada com ID: " + id));
+                .orElseThrow((() -> new ResourceNotFoundException("Editora não encontrada com ID: " + id)));
     }
     
     public DeleteResponse delete(UUID id) {

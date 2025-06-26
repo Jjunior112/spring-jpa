@@ -1,6 +1,14 @@
 package com.bookstore.spring_JPA.controllers;
 
-import org.springframework.stereotype.Controller;
+import com.bookstore.spring_JPA.dtos.DeleteResponse;
+import com.bookstore.spring_JPA.dtos.ReviewRecordDto;
+import com.bookstore.spring_JPA.models.Review;
+import com.bookstore.spring_JPA.services.ReviewService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/review")
@@ -14,7 +22,7 @@ public class ReviewController {
         this.reviewService = reviewService;
     }
 
-    @GetMapping 
+    @GetMapping
 
     public List<Review> getAll()
     {
@@ -33,7 +41,7 @@ public class ReviewController {
 
     @PostMapping
 
-    public String create(@RequestBody ReviewRecordDto reviewDto)
+    public Review create(@RequestBody ReviewRecordDto reviewDto)
     {
         return reviewService.create(reviewDto);
     }
@@ -43,7 +51,7 @@ public class ReviewController {
     public String delete(@PathVariable UUID id)
     {
 
-        var response =reviewService.delete(id);
+        DeleteResponse response =reviewService.delete(id);
     
         return response.message();
     }

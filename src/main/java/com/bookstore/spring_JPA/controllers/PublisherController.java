@@ -1,8 +1,14 @@
 package com.bookstore.spring_JPA.controllers;
 
-import org.springframework.stereotype.Controller;
+import com.bookstore.spring_JPA.dtos.DeleteResponse;
+import com.bookstore.spring_JPA.dtos.PublisherRecordDto;
+import com.bookstore.spring_JPA.models.Publisher;
+import com.bookstore.spring_JPA.services.PublisherService;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("publisher")
@@ -26,14 +32,14 @@ public class PublisherController {
 
     @GetMapping("/{id}")
 
-    public Optional<Publisher> getById(@PathVariable UUID id)
+    public Publisher getById(@PathVariable UUID id)
     {
         return publisherService.findById(id);
     }
 
     @PostMapping
 
-    public String create(@RequestBody PublisherRecordDto publisherDto)
+    public Publisher create(@RequestBody PublisherRecordDto publisherDto)
     {
         return publisherService.create(publisherDto);
     }
@@ -42,7 +48,7 @@ public class PublisherController {
 
     public String delete(@PathVariable UUID id)
     {
-        var response = publisherService.delete(id);
+        DeleteResponse response = publisherService.delete(id);
         
         return response.message();
     }

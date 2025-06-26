@@ -1,9 +1,15 @@
 package com.bookstore.spring_JPA.controllers;
 
-import org.springframework.stereotype.Controller;
+import com.bookstore.spring_JPA.dtos.BookRecordDto;
+import com.bookstore.spring_JPA.dtos.DeleteResponse;
+import com.bookstore.spring_JPA.models.Book;
+import com.bookstore.spring_JPA.services.BookService;
+
+import org.springframework.web.bind.annotation.*;
 
 
-import java.util.Optional;
+import java.util.List;
+import java.util.UUID;
 
 
 @RestController
@@ -20,7 +26,7 @@ public class BookController {
 
     @PostMapping
 
-    public String create(@RequestBody BookRecordDto bookDto)
+    public Book create(@RequestBody BookRecordDto bookDto)
     {
         return bookService.create(bookDto);
     }
@@ -28,21 +34,21 @@ public class BookController {
     @GetMapping
     public List<Book> getAll()
     {
-        return authorService.findAll();
+        return bookService.findAll();
     }
 
     @GetMapping("/{id}")
 
-    public Optional<Book> getById(@PathVariable UUID id)
+    public Book getById(@PathVariable UUID id)
     {
-        bookService.findById(id);
+        return bookService.findById(id);
     }
 
     @DeleteMapping("/{id}")
     
     public String delete(@PathVariable UUID id)
     {
-        var response = bookService.delete(id);
+        DeleteResponse response = bookService.delete(id);
 
         return response.message();
     }
