@@ -63,7 +63,7 @@ public class BookService {
 
     public DeleteResponse delete(UUID id)
     {
-        Book book = bookRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Livro com id: " + id + " não encontrado!"));    
+        Book book = bookRepository.findById(id)    
 
         bookRepository.delete(book);
 

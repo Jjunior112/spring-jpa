@@ -2,7 +2,49 @@ package com.bookstore.spring_JPA.controllers;
 
 import org.springframework.stereotype.Controller;
 
-@Controller
+import java.util.Optional;
+
+@RestController
+@RequestMapping("publisher")
+
 public class PublisherController {
+
+    private final PublisherService publisherService;
+
+    public PublisherController(PublisherService publisherService)
+    {
+        this.publisherService = publisherService;
+
+    }
+
+    @GetMapping
+
+    public List<Publisher> getAll()
+    {
+        return publisherService.findAll();
+    }
+
+    @GetMapping("/{id}")
+
+    public Optional<Publisher> getById(@PathVariable UUID id)
+    {
+        return publisherService.findById(id);
+    }
+
+    @PostMapping
+
+    public String create(@RequestBody PublisherRecordDto publisherDto)
+    {
+        return publisherService.create(publisherDto);
+    }
+
+    @DeleteMapping("/{id}")
+
+    public String delete(@PathVariable UUID id)
+    {
+        var response = publisherService.delete(id);
+        
+        return response.message();
+    }
 
 }

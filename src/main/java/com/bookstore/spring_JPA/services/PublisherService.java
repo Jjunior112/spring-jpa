@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.Optional;
 
 @Service
 public class PublisherService {
@@ -23,25 +24,30 @@ public class PublisherService {
         this.bookRepository = bookRepository;
     }
 
-    public Publisher create(PublisherRecordDto publisherDto) {
+
+
+    public String create(PublisherRecordDto publisherDto) {
 
         Publisher publisher = new Publisher();
 
         publisher.setName(publisherDto.name());
 
-        return publisherRepository.save(publisher);
+        publisherRepository.save(publisher);
+
+        return new publisherRecordDto(saved.getName());
+
     }
   
     public List<Publisher> findAll() {
         return publisherRepository.findAll();
     }
 
-    public Publisher findById(UUID id) {
+    public Optional<Publisher> findById(UUID id) {
         return publisherRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Editora não encontrada com ID: " + id));
     }
     
-    public void delete(UUID id) {
+    public DeleteResponse delete(UUID id) {
         Publisher publisher = publisherRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Editora não encontrada com ID: " + id));
 
@@ -50,5 +56,7 @@ public class PublisherService {
         }
 
         publisherRepository.delete(publisher);
+
+        return new DeleteResponse(true,"Editora deletado com sucesso!");
     }
 }

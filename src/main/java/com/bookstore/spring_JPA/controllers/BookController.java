@@ -20,7 +20,7 @@ public class BookController {
 
     @PostMapping
 
-    public String create(BookRecordDto bookDto)
+    public String create(@RequestBody BookRecordDto bookDto)
     {
         return bookService.create(bookDto);
     }
@@ -40,7 +40,7 @@ public class BookController {
 
     @DeleteMapping("/{id}")
     
-    public String delete(UUID id)
+    public String delete(@PathVariable UUID id)
     {
         var response = bookService.delete(id);
 
